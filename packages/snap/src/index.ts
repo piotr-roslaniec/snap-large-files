@@ -1,40 +1,25 @@
 import { OnRpcRequestHandler } from '@metamask/snap-types';
 
-/**
- * Get a message from the origin. For demonstration purposes only.
- *
- * @param originString - The origin string.
- * @returns A message based on the origin.
- */
-export const getMessage = (originString: string): string =>
-  `Hello, ${originString}!`;
+// Using code-splitted import to avoid bundling all of the files in the package
+// Uncomment and run these one by one:
+// import { FILE_10M_BASE64 as largeFile } from './file-10M-base64'; // ~1200 ms
+// import { FILE_25M_BASE64 as largeFile } from './file-25M-base64'; // ~2800 ms
+import { FILE_100M_BASE64 as largeFile } from './file-100M-base64'; // Crashes!
 
-/**
- * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
- *
- * @param args - The request handler args as object.
- * @param args.origin - The origin of the request, e.g., the website that
- * invoked the snap.
- * @param args.request - A validated JSON-RPC request object.
- * @returns `null` if the request succeeded.
- * @throws If the request method is not valid for this snap.
- * @throws If the `snap_confirm` call failed.
- */
+const arrayBufferFromBase64 = (base64String: string) =>
+  Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));
+
 export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
+  const t1 = Date.now();
+  const bytes = arrayBufferFromBase64(largeFile);
+  const t2 = Date.now();
+
+  const info = `Loaded bytes: ${bytes.length}\nStartup time: ${t2 - t1} ms`;
+  console.log(info);
+
   switch (request.method) {
     case 'hello':
-      return wallet.request({
-        method: 'snap_confirm',
-        params: [
-          {
-            prompt: getMessage(origin),
-            description:
-              'This custom confirmation is just for display purposes.',
-            textAreaContent:
-              'But you can edit the snap source code to make it do something, if you want to!',
-          },
-        ],
-      });
+      return info;
     default:
       throw new Error('Method not found.');
   }

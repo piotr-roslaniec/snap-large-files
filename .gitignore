@@ -3,6 +3,9 @@ dist/
 build/
 coverage/
 
+# Ignore generated files
+*/**/src/file-*
+
 # Logs
 logs
 *.log
