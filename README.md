@@ -6,7 +6,7 @@ We're going to use measure performance of loading files from snap (package) sour
 
 ## Usage
 
-Notice that `packages/snap/scripts/file-encode.js` depends on access to [some large files](https://github.com/piotr-roslaniec/snap-large-files). I recommend cloning the repo or recreating files locally.
+Notice that `packages/snap/scripts/file-encode.js` depends on access to [some large files](https://github.com/piotr-roslaniec/large-files). I recommend cloning the repo or recreating files locally.
 
 To run the snap, run:
 
