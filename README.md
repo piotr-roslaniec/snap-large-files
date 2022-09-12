@@ -33,9 +33,9 @@ $ du -h src/file-*
 | In source, base64-encoded |       10        |          ~1200 |
 | In source, base64-encoded |       25        |          ~2800 |
 | In source, base64-encoded |       100       |       Crashes! |
-| On GH, binary             |       10        |           TODO |
-| On GH, binary             |       25        |           TODO |
-| On GH, binary             |       100       |           TODO |
+| On GH, binary             |       10        |           ~953 |
+| On GH, binary             |       25        |          ~2580 |
+| On GH, binary             |       100       |          ~5540 |
 
 ## Current issues
 
