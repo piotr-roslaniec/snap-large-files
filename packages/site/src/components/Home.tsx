@@ -107,9 +107,33 @@ export const Home = () => {
     }
   };
 
+  const fetchFile = async (url: string) => {
+    const t1 = Date.now();
+    const response = await fetch(url, {
+      method: 'GET',
+      mode: 'no-cors',
+    });
+    const bytes = await response.arrayBuffer();
+    const t2 = Date.now();
+    // TODO: For some reason fetch is non blocking and so the data returned here is not reliable
+    // The data in BENCHMARK.MD has been taken from browsers "Net"
+    const info =
+      `Url: ${url}\n` +
+      `Loaded bytes: ${bytes.byteLength}\n` +
+      `Startup time: ${t2 - t1} ms`;
+    return info;
+  };
+
   const handleSendHelloClick = async () => {
     try {
-      await sendHello();
+      const REMOTE_FILES = [10, 25, 100].map(
+        (size) =>
+          `https://raw.githubusercontent.com/piotr-roslaniec/large-files/48d47e6ced425c264a742294d6208f351040a4e7/${size}M.bin`,
+      );
+      const browserResult = await Promise.all(REMOTE_FILES.map(fetchFile));
+      console.log(browserResult);
+      const snapResult = await sendHello(REMOTE_FILES[0]);
+      console.log(snapResult);
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });

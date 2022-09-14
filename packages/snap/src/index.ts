@@ -9,10 +9,22 @@ import { OnRpcRequestHandler } from '@metamask/snap-types';
 const arrayBufferFromBase64 = (base64String: string) =>
   Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));
 
-const REMOTE_FILES = [10, 25, 100].map(
-  (size) =>
-    `https://raw.githubusercontent.com/piotr-roslaniec/large-files/48d47e6ced425c264a742294d6208f351040a4e7/${size}M.bin`,
-);
+const fetchFile = async (url: string) => {
+  const t1 = Date.now();
+  const response = await fetch(url, {
+    method: 'GET',
+    mode: 'no-cors',
+  });
+  const bytes = await response.arrayBuffer();
+  const t2 = Date.now();
+  // TODO: For some reason fetch is non blocking and so the data returned here is not reliable
+  // The data in BENCHMARK.MD has been taken from browsers "Net"
+  const info =
+    `Url: ${url}\n` +
+    `Loaded bytes: ${bytes.byteLength}\n` +
+    `Startup time: ${t2 - t1} ms`;
+  return info;
+};
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -24,26 +36,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   // const info = `Loaded bytes: ${bytes.length}\nStartup time: ${t2 - t1} ms`;
   // console.log(info);
 
-  for (const url of REMOTE_FILES) {
-    const t1 = Date.now();
-    const response = await fetch(url, {
-      method: 'GET',
-      mode: 'no-cors',
-    });
-    const bytes = await response.arrayBuffer();
-    const t2 = Date.now();
-    // TODO: For some reason fetch is non blocking and so the data returned here is not reliable
-    // The data in BENCHMARK.MD has been taken from browsers "Net"
-    const info =
-      `Url: ${url}\n` +
-      `Loaded bytes: ${bytes.byteLength}\n` +
-      `Startup time: ${t2 - t1} ms`;
-    console.log(info);
-  }
-
   switch (request.method) {
     case 'hello':
-      return true;
+      return await fetchFile(request.params[0]);
     default:
       throw new Error('Method not found.');
   }
