@@ -2,7 +2,7 @@ const { promises: fs } = require('fs');
 const path = require('path');
 
 async function main(encoding) {
-  const fileSizes = [10, 25, 100];
+  const fileSizes = [10, 25, 50, 75, 100];
   fileSizes.forEach(async (size) => {
     const file = path.join(__dirname, `../../../../large-files/${size}M.bin`);
     const fileBin = await fs.readFile(file);

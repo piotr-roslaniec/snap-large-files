@@ -4,7 +4,9 @@ import { OnRpcRequestHandler } from '@metamask/snap-types';
 // Uncomment and run these one by one:
 // import { FILE_10M_BASE64 as largeFile } from './file-10M-base64'; // ~1200 ms
 // import { FILE_25M_BASE64 as largeFile } from './file-25M-base64'; // ~2800 ms
-import { FILE_100M_BASE64 as largeFile } from './file-100M-base64'; // Crashes!
+// import { FILE_50M_BASE64 as largeFile } from './file-50M-base64'; // Crashes!
+// import { FILE_75M_BASE64 as largeFile } from './file-75M-base64'; // Crashes!
+// import { FILE_100M_BASE64 as largeFile } from './file-100M-base64'; // Crashes!
 
 const arrayBufferFromBase64 = (base64String: string) =>
   Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));

@@ -32,6 +32,8 @@ $ du -h src/file-*
 | ------------------------- | :-------------: | -------------: |
 | In source, base64-encoded |       10        |          ~1200 |
 | In source, base64-encoded |       25        |          ~2800 |
+| In source, base64-encoded |       50        |       Crashes! |
+| In source, base64-encoded |       75        |       Crashes! |
 | In source, base64-encoded |       100       |       Crashes! |
 | On GH, binary             |       10        |           TODO |
 | On GH, binary             |       25        |           TODO |
