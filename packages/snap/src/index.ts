@@ -1,27 +1,5 @@
 import { OnRpcRequestHandler } from '@metamask/snap-types';
-
-const fetchFile = async (url: string) => {
-  console.log('start fetching file');
-  const t1 = Date.now();
-  const response = await fetch(url, {
-    method: 'GET',
-    // mode: 'no-cors',
-  });
-  console.log(response);
-  const bytes = await response.arrayBuffer();
-  console.log(`fetchedd ${bytes.byteLength}`);
-
-  const t2 = Date.now();
-
-  const info =
-    `Url: ${url}\n` +
-    `Loaded bytes: ${bytes.byteLength}\n` +
-    `Startup time: ${t2 - t1} ms`;
-
-  console.log(info);
-  
-  return info;
-};
+import { fetchLargeFile } from './fetch-files';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -35,7 +13,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
   switch (request.method) {
     case 'hello':
-      return await fetchFile(request.params[0]);
+      return await fetchLargeFile();
     default:
       throw new Error('Method not found.');
   }
