@@ -64,7 +64,7 @@ export const isSnapInstalled = async (version?: string): Promise<boolean> => {
  */
 
 export const sendHello = async (url: string) => {
-  await window.ethereum.request({
+  return await window.ethereum.request({
     method: 'wallet_invokeSnap',
     params: [
       defaultSnapOrigin,

@@ -111,12 +111,10 @@ export const Home = () => {
     const t1 = Date.now();
     const response = await fetch(url, {
       method: 'GET',
-      mode: 'no-cors',
+      // mode: 'no-cors',
     });
     const bytes = await response.arrayBuffer();
     const t2 = Date.now();
-    // TODO: For some reason fetch is non blocking and so the data returned here is not reliable
-    // The data in BENCHMARK.MD has been taken from browsers "Net"
     const info =
       `Url: ${url}\n` +
       `Loaded bytes: ${bytes.byteLength}\n` +
@@ -130,9 +128,9 @@ export const Home = () => {
         (size) =>
           `https://raw.githubusercontent.com/piotr-roslaniec/large-files/48d47e6ced425c264a742294d6208f351040a4e7/${size}M.bin`,
       );
-      const browserResult = await Promise.all(REMOTE_FILES.map(fetchFile));
+      const browserResult = await fetchFile(REMOTE_FILES[2]);
       console.log(browserResult);
-      const snapResult = await sendHello(REMOTE_FILES[0]);
+      const snapResult = await sendHello(REMOTE_FILES[2]);
       console.log(snapResult);
     } catch (e) {
       console.error(e);

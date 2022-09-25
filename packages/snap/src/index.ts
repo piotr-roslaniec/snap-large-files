@@ -1,28 +1,25 @@
 import { OnRpcRequestHandler } from '@metamask/snap-types';
 
-// Using code-splitted import to avoid bundling all of the files in the package
-// Uncomment and run these one by one:
-// import { FILE_10M_BASE64 as largeFile } from './file-10M-base64'; // ~1200 ms
-// import { FILE_25M_BASE64 as largeFile } from './file-25M-base64'; // ~2800 ms
-// import { FILE_100M_BASE64 as largeFile } from './file-100M-base64'; // Crashes!
-
-const arrayBufferFromBase64 = (base64String: string) =>
-  Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));
-
 const fetchFile = async (url: string) => {
+  console.log('start fetching file');
   const t1 = Date.now();
   const response = await fetch(url, {
     method: 'GET',
-    mode: 'no-cors',
+    // mode: 'no-cors',
   });
+  console.log(response);
   const bytes = await response.arrayBuffer();
+  console.log(`fetchedd ${bytes.byteLength}`);
+
   const t2 = Date.now();
-  // TODO: For some reason fetch is non blocking and so the data returned here is not reliable
-  // The data in BENCHMARK.MD has been taken from browsers "Net"
+
   const info =
     `Url: ${url}\n` +
     `Loaded bytes: ${bytes.byteLength}\n` +
     `Startup time: ${t2 - t1} ms`;
+
+  console.log(info);
+  
   return info;
 };
 
