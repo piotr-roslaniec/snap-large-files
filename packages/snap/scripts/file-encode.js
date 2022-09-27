@@ -1,6 +1,10 @@
 const { promises: fs } = require('fs');
 const path = require('path');
 
+/**
+ *
+ * @param encoding
+ */
 async function main(encoding) {
   const fileSizes = [10, 25, 100];
   fileSizes.forEach(async (size) => {
